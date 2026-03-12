@@ -2,26 +2,26 @@ import { useState } from "react"
 import axios from "axios"
 
 const G20_COUNTRIES = [
-  { name: "Argentina", code: "ARG" },
-  { name: "Australia", code: "AUS" },
-  { name: "Brazil", code: "BRA" },
-  { name: "Canada", code: "CAN" },
-  { name: "China", code: "CHN" },
-  { name: "France", code: "FRA" },
-  { name: "Germany", code: "DEU" },
-  { name: "India", code: "IND" },
-  { name: "Indonesia", code: "IDN" },
-  { name: "Italy", code: "ITA" },
-  { name: "Japan", code: "JPN" },
-  { name: "Mexico", code: "MEX" },
-  { name: "Russia", code: "RUS" },
-  { name: "Saudi Arabia", code: "SAU" },
-  { name: "South Africa", code: "ZAF" },
-  { name: "South Korea", code: "KOR" },
-  { name: "Turkey", code: "TUR" },
-  { name: "United Kingdom", code: "GBR" },
-  { name: "United States", code: "USA" },
-  { name: "Pakistan", code: "PAK" },
+  { name: "Argentina", code: "ARG", flag: "ar", capital: "Buenos Aires", region: "South America" },
+  { name: "Australia", code: "AUS", flag: "au", capital: "Canberra", region: "Oceania" },
+  { name: "Brazil", code: "BRA", flag: "br", capital: "Brasília", region: "South America" },
+  { name: "Canada", code: "CAN", flag: "ca", capital: "Ottawa", region: "North America" },
+  { name: "China", code: "CHN", flag: "cn", capital: "Beijing", region: "Asia" },
+  { name: "France", code: "FRA", flag: "fr", capital: "Paris", region: "Europe" },
+  { name: "Germany", code: "DEU", flag: "de", capital: "Berlin", region: "Europe" },
+  { name: "India", code: "IND", flag: "in", capital: "New Delhi", region: "Asia" },
+  { name: "Indonesia", code: "IDN", flag: "id", capital: "Jakarta", region: "Asia" },
+  { name: "Italy", code: "ITA", flag: "it", capital: "Rome", region: "Europe" },
+  { name: "Japan", code: "JPN", flag: "jp", capital: "Tokyo", region: "Asia" },
+  { name: "Mexico", code: "MEX", flag: "mx", capital: "Mexico City", region: "North America" },
+  { name: "Russia", code: "RUS", flag: "ru", capital: "Moscow", region: "Europe" },
+  { name: "Saudi Arabia", code: "SAU", flag: "sa", capital: "Riyadh", region: "Middle East" },
+  { name: "South Africa", code: "ZAF", flag: "za", capital: "Pretoria", region: "Africa" },
+  { name: "South Korea", code: "KOR", flag: "kr", capital: "Seoul", region: "Asia" },
+  { name: "Turkey", code: "TUR", flag: "tr", capital: "Ankara", region: "Middle East" },
+  { name: "United Kingdom", code: "GBR", flag: "gb", capital: "London", region: "Europe" },
+  { name: "United States", code: "USA", flag: "us", capital: "Washington D.C.", region: "North America" },
+  { name: "Pakistan", code: "PAK", flag: "pk", capital: "Islamabad", region: "Asia" },
 ]
 
 const fetchIndicator = async (countryCode, indicator) => {
@@ -62,15 +62,18 @@ export default function CountrySelector({ selectedCountry, setSelectedCountry, s
         onChange={handleSelect}
         defaultValue=""
         style={{
-          background: "#1a1a2e",
-          color: "#fff",
-          border: "1px solid #333",
-          padding: "12px 20px",
-          borderRadius: "8px",
-          fontSize: "16px",
-          cursor: "pointer",
-          width: "280px"
-        }}
+        background: "#0f172a",
+        color: "#f1f5f9",
+        border: "1px solid #1e3a5f",
+        padding: "8px 16px",
+        borderRadius: "6px",
+        fontSize: "12px",
+        cursor: "pointer",
+        width: "200px",
+        fontWeight: "500",
+        letterSpacing: "0.3px",
+        outline: "none"
+      }}
       >
         <option value="" disabled>Select a country...</option>
         {G20_COUNTRIES.map(c => (
