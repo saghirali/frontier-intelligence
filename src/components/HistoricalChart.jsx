@@ -82,7 +82,7 @@ export default function HistoricalChart({ country }) {
               onClick={() => handleIndicatorChange(ind)}
               style={{
                 background: selectedIndicator.code === ind.code ? "#1e2a3a" : "transparent",
-                color: selectedIndicator.code === ind.code ? ind.color : "#475569",
+                color: selectedIndicator.code === ind.code ? ind.color : "#94a3b8",
                 border: "none",
                 borderRadius: "6px",
                 padding: "5px 10px",
@@ -113,8 +113,8 @@ export default function HistoricalChart({ country }) {
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#1e2a3a" vertical={false} />
-            <XAxis dataKey="year" stroke="#334155" fontSize={10} tickLine={false} />
-            <YAxis stroke="#334155" fontSize={10} tickLine={false} tickFormatter={selectedIndicator.format} width={60} />
+            <XAxis dataKey="year" stroke="#64748b" fontSize={10} tickLine={false} tick={{ fill: "#94a3b8" }} />
+<YAxis stroke="#64748b" fontSize={10} tickLine={false} tickFormatter={selectedIndicator.format} width={60} tick={{ fill: "#94a3b8" }} />
             <Tooltip content={<CustomTooltip />} />
             <Area
               type="monotone"

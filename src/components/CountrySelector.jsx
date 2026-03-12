@@ -57,7 +57,7 @@ export default function CountrySelector({ selectedCountry, setSelectedCountry, s
   }
 
   return (
-    <div style={{ marginBottom: "32px" }}>
+    <div style={{ marginBottom: "0px" }}>
       <select
         onChange={handleSelect}
         defaultValue=""

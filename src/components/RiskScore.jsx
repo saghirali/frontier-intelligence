@@ -16,7 +16,7 @@ export default function RiskScore({ country, data }) {
 
 Respond in this exact JSON format only, no extra text:
 {
-  "score": <number between 0-100, where 0 is no risk and 100 is extreme risk>,
+  "score": <number between 0-100>,
   "level": "<Low|Medium|High|Critical>",
   "summary": "<one sentence explanation>",
   "factors": ["<risk factor 1>", "<risk factor 2>", "<risk factor 3>"]
@@ -30,16 +30,13 @@ Respond in this exact JSON format only, no extra text:
           "Authorization": `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`
         },
         body: JSON.stringify({
-          model: "llama-3.1-8b-instant",
+          model: "llama-3.3-70b-versatile",
           messages: [{ role: "user", content: prompt }],
           max_tokens: 300
         })
       })
-    
-     const result = await res.json()
-     console.log("FULL RESULT:", JSON.stringify(result))     
-     const text = result?.choices?.[0]?.message?.content
-      console.log("RAW RESPONSE:", text)
+      const result = await res.json()
+      const text = result?.choices?.[0]?.message?.content
       const cleaned = text.replace(/```json|```/g, "").trim()
       const parsed = JSON.parse(cleaned)
       setRisk(parsed)
@@ -50,81 +47,103 @@ Respond in this exact JSON format only, no extra text:
   }
 
   const getColor = (level) => {
-    if (level === "Low") return "#4ade80"
+    if (level === "Low") return "#22c55e"
     if (level === "Medium") return "#facc15"
     if (level === "High") return "#f97316"
     if (level === "Critical") return "#ef4444"
-    return "#888"
+    return "#475569"
+  }
+
+  const getScore = (score) => {
+    const pct = Math.min(100, Math.max(0, score))
+    return pct
   }
 
   return (
     <div style={{
-      background: "#1a1a2e",
-      border: "1px solid #333",
+      background: "#060912",
+      border: "1px solid #1e2a3a",
       borderRadius: "12px",
-      padding: "24px",
-      marginBottom: "32px"
+      padding: "20px",
     }}>
-      <h2 style={{ fontSize: "18px", fontWeight: "600", marginBottom: "16px", color: "#fff" }}>
-        📊 AI Risk Assessment
-      </h2>
+      {/* Header */}
+      <div style={{ marginBottom: "16px" }}>
+        <p style={{ fontSize: "9px", color: "#64748b", letterSpacing: "1px", marginBottom: "2px" }}>AI RISK ASSESSMENT</p>
+        <p style={{ fontSize: "14px", fontWeight: "600", color: "#f1f5f9" }}>{country.name} · Economic Risk</p>
+      </div>
 
       {!risk && !loading && (
         <button
           onClick={calculateRisk}
           style={{
-            background: "#f97316",
-            color: "#000",
-            border: "none",
+            width: "100%",
+            background: "linear-gradient(135deg, #1e3a5f, #1d4ed8)",
+            color: "#fff",
+            border: "1px solid #3b82f6",
             borderRadius: "8px",
-            padding: "12px 24px",
-            fontWeight: "700",
-            cursor: "pointer"
+            padding: "12px",
+            fontWeight: "600",
+            cursor: "pointer",
+            fontSize: "13px",
+            letterSpacing: "0.5px"
           }}
         >
-          Calculate Risk Score
+          ◈ Calculate Risk Score
         </button>
       )}
 
-      {loading && <p style={{ color: "#888" }}>Analyzing economic risk...</p>}
+      {loading && (
+        <div style={{ textAlign: "center", padding: "24px 0" }}>
+          <p style={{ color: "#475569", fontSize: "12px", letterSpacing: "1px" }}>ANALYZING ECONOMIC DATA...</p>
+        </div>
+      )}
 
       {risk && risk.level !== "Error" && (
         <div>
-          <div style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "16px" }}>
+          {/* Score Circle + Level */}
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "16px" }}>
             <div style={{
-              width: "80px",
-              height: "80px",
+              width: "72px", height: "72px", flexShrink: 0,
               borderRadius: "50%",
-              background: `${getColor(risk.level)}22`,
-              border: `3px solid ${getColor(risk.level)}`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "24px",
-              fontWeight: "700",
-              color: getColor(risk.level)
+              background: `conic-gradient(${getColor(risk.level)} ${getScore(risk.score) * 3.6}deg, #1e2a3a 0deg)`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              position: "relative"
             }}>
-              {risk.score}
+              <div style={{
+                width: "54px", height: "54px", borderRadius: "50%",
+                background: "#060912",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                flexDirection: "column"
+              }}>
+                <span style={{ color: getColor(risk.level), fontSize: "16px", fontWeight: "800" }}>{risk.score}</span>
+                <span style={{ color: "#334155", fontSize: "8px" }}>/ 100</span>
+              </div>
             </div>
             <div>
-              <p style={{ fontSize: "20px", fontWeight: "700", color: getColor(risk.level) }}>
+              <p style={{ color: getColor(risk.level), fontSize: "18px", fontWeight: "700" }}>
                 {risk.level} Risk
               </p>
-              <p style={{ color: "#888", fontSize: "14px" }}>{risk.summary}</p>
+              <p style={{ color: "#e2e8f0", fontSize: "11px", lineHeight: "1.5", marginTop: "2px" }}>
+                {risk.summary}
+              </p>
             </div>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          {/* Risk Factors */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+            <p style={{ fontSize: "9px", color: "#334155", letterSpacing: "1px", marginBottom: "4px" }}>RISK FACTORS</p>
             {risk.factors.map((factor, i) => (
               <div key={i} style={{
-                background: "#0a0a0f",
+                background: "#0a0e1a",
                 borderRadius: "6px",
-                padding: "10px 14px",
-                color: "#ccc",
-                fontSize: "14px",
-                borderLeft: `3px solid ${getColor(risk.level)}`
+                padding: "8px 12px",
+                color: "#94a3b8",
+                fontSize: "12px",
+                borderLeft: `2px solid ${getColor(risk.level)}`,
+                display: "flex", alignItems: "center", gap: "8px"
               }}>
-                ⚠️ {factor}
+                <span style={{ color: getColor(risk.level), fontSize: "10px" }}>▸</span>
+                {factor}
               </div>
             ))}
           </div>

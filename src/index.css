@@ -34,3 +34,6 @@ select {
   appearance: none;
   -webkit-appearance: none;
 }
+@media (max-width: 768px) {
+  body { overflow-x: hidden; }
+}

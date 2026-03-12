@@ -1,28 +1,24 @@
 export default function CountryInfo({ country }) {
   return (
     <div style={{
-      background: "#1a1a2e",
-      border: "1px solid #333",
-      borderRadius: "12px",
-      padding: "24px",
-      marginBottom: "32px",
+      background: "#060912",
+      border: "1px solid #1e2a3a",
+      borderRadius: "10px",
+      padding: "14px 18px",
       display: "flex",
       alignItems: "center",
-      gap: "24px"
+      gap: "16px",
+      flexWrap: "wrap"
     }}>
       <img
         src={`https://flagcdn.com/w80/${country.flag}.png`}
         alt={country.name}
-        style={{ width: "80px", borderRadius: "6px", border: "1px solid #333" }}
+        style={{ height: "32px", borderRadius: "4px", border: "1px solid #1e2a3a" }}
       />
-      <div>
-        <h2 style={{ fontSize: "24px", fontWeight: "700", color: "#fff", marginBottom: "6px" }}>
-          {country.name}
-        </h2>
-        <p style={{ color: "#888", fontSize: "14px" }}>
-          🏛️ Capital: <span style={{ color: "#ccc" }}>{country.capital}</span>
-          &nbsp;&nbsp;|&nbsp;&nbsp;
-          🌍 Region: <span style={{ color: "#ccc" }}>{country.region}</span>
+      <div style={{ flex: 1, minWidth: "150px" }}>
+        <h2 style={{ fontSize: "16px", fontWeight: "700", color: "#f1f5f9" }}>{country.name}</h2>
+        <p style={{ color: "#cbd5e1", fontSize: "11px", marginTop: "2px" }}>
+          🏛 {country.capital} &nbsp;·&nbsp; 🌍 {country.region}
         </p>
       </div>
     </div>
